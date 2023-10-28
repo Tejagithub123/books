@@ -42,5 +42,4 @@ app.use('/api/author',Authors)
 
 app.use('/api/category',Categories)
 
-
 module.exports = app;

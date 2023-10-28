@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose");
 
 const Category = require('../models/Category') 
 
+
 exports.addcategory = async (req,res) => {
    category = new Category (req.body) 
    category.save()
