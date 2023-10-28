@@ -1,4 +1,6 @@
-Book = require("../models/Book") 
+const Book = require("../models/Book");
+
+
 
 exports.addbook = (req, res,next) => {
     const book = new Book(req.body);
@@ -127,4 +129,27 @@ exports.addbook = (req, res,next) => {
           message: "Problème d'affichage du livre",
         });
       });
-  };
+  }; 
+
+
+exports.getcategories = async (req,res)=>{
+  const bookId = req.params.id; 
+  Book.findById(bookId).populate('categories') 
+.exec().then((book) => {
+  if (!book) {
+    return res.status(404).json({
+      message: "auteur du livre",
+    });
+  }
+  res.status(200).json({
+    model: book,
+    message: "Success",
+  });
+})
+.catch((error) => {
+  res.status(400).json({
+    error: error.message,
+    message: "Categories du livre",
+  });
+});
+}; 

@@ -4,7 +4,7 @@ const app = express();
 
 const Books = require("./routes/Book") 
 const Authors = require("./routes/Author")
-
+const Categories = require('./routes/Category')
 
 const MONGODB_URI = "mongodb://127.0.0.1:27017/Book";
 mongoose.connect(MONGODB_URI, {
@@ -40,6 +40,7 @@ app.use('/api/books',Books)
 
 app.use('/api/author',Authors)
 
+app.use('/api/category',Categories)
 
 
 module.exports = app;

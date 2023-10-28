@@ -10,5 +10,5 @@ router.get('/:id', bookontroller.getbook);
 router.delete('/:id', bookontroller.deletebook);
 
 router.get('/author/:id',bookontroller.getbookAuthor); 
-
+router.get('/Category/:id',bookontroller.getcategories);
 module.exports=router
