@@ -9,6 +9,8 @@ const Categories = require('./routes/Category')
 
 const Users = require("./routes/Users");
 
+const Events = require("./routes/Event");
+
 const MONGODB_URI = "mongodb://127.0.0.1:27017/Book";
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -46,5 +48,6 @@ app.use('/api/author',Authors)
 app.use('/api/category',Categories)
 
 app.use('/api/',Users)
+app.use('/api/Event',Events)
 
 module.exports = app;
