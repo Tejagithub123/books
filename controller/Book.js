@@ -1,29 +1,69 @@
 const Book = require("../models/Book");
 
 
+const Author = require('../models/Author')
+
+exports.addBookhavingauthor = async (req, res, next) => {
+  try {
+ 
+    const authorExists = await Author.findById(req.body.author);
+    if (!authorExists) {
+      return res.status(400).json({
+        message: "L'auteur spécifié n'existe pas.",
+      });
+    }
+
+   
+    const existingBooks = await Book.findByAuthor(req.body.author);
+    if (!existingBooks || existingBooks.length === 0) {
+      return res.status(400).json({
+        message: "L'auteur n'a pas encore écrit de livres. Impossible d'ajouter un nouveau livre.",
+      });
+    }
+
+
+    const book = new Book(req.body);
+    await book.save();
+
+    res.status(201).json({
+      model: book,
+      message: "Objet créé avec succès",
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+      message: "Données invalides",
+    });
+  }
+};
 
 
 exports.addbook = (req, res,next) => {
-    const book = new Book(req.body);
-   
-    book
-      .save()
-      .then(() => {
-        res.status(201).json({
-          model: book,
-          message: "objet cree",
-        });
-      })
-      .catch((error) => {
-        res.status(400).json({
-          error: error.message,
-          message: "Données invalides",
-        });
+  const book = new Book(req.body);
+ 
+  book
+    .save()
+    .then(() => {
+      res.status(201).json({
+        model: book,
+        message: "objet cree",
       });
-  };
+    })
+    .catch((error) => {
+      res.status(400).json({
+        error: error.message,
+        message: "Données invalides",
+      });
+    });
+};
 
 
   
+
+
+
+
+   
   exports.getbooks = (req, res,next) => {
     Book.find()
       .then((books) => {
@@ -62,6 +102,8 @@ exports.addbook = (req, res,next) => {
       });
       
   };
+
+
   
  exports.getbook=  (req, res,next) => {
     Book.findOne({ _id: req.params.id })
@@ -154,4 +196,23 @@ exports.getcategories = async (req,res)=>{
     message: "erreur",
   });
 });
-}; 
+};  
+
+
+exports.getauthorbookfunc = async (req,res)=> {
+  const authorId = req.params.id;
+
+  try {
+    const books = await Book.findByAuthor(authorId);
+    res.status(200).json({
+      model: books,
+      message: 'Success',
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+      message: 'Problème lors de la recherche de livres par auteur',
+    });
+  }
+};
+

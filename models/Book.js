@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const idValidator = require('mongoose-id-validator');
 const bookSchema = mongoose.Schema({
   title: { type: String, required: true },
   date: { type: Date, required: false },
@@ -16,12 +16,19 @@ const bookSchema = mongoose.Schema({
   categories: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
+      ref: 'Category', //nom modele
     },
   ],
     
   
-});
+}
 
+); 
+
+
+
+bookSchema.statics.findByAuthor = function (authorId) {
+  return this.find({ author: authorId });
+};
 
 module.exports = mongoose.model('Book', bookSchema);

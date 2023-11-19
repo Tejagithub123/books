@@ -7,5 +7,4 @@ const AuthorSchema = mongoose.Schema({
     
 });
 
-
 module.exports = mongoose.model('Author', AuthorSchema);
