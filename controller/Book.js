@@ -5,7 +5,6 @@ const Author = require('../models/Author')
 
 exports.addBookhavingauthor = async (req, res, next) => {
   try {
- 
     const authorExists = await Author.findById(req.body.author);
     if (!authorExists) {
       return res.status(400).json({
